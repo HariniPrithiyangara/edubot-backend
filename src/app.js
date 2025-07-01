@@ -8,8 +8,16 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
-// ✅ CORS setup for frontend
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// ✅ CORS setup for both local and deployed frontend
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",               // for local development
+      "https://edubot-815x.vercel.app"       // for deployed Vercel frontend
+    ],
+    credentials: true,
+  })
+);
 
 // ✅ JSON parser
 app.use(express.json());
@@ -19,8 +27,8 @@ app.use("/uploads", express.static("uploads"));
 
 // ✅ All API routes
 app.use("/api/auth", authRoutes); // /signup, /login, /forgot-password
-app.use("/api/chat", chatRoutes); // Your chatbot/chat APIs
-app.use("/api/user", userRoutes); // Profile, settings, etc.
+app.use("/api/chat", chatRoutes); // chatbot routes
+app.use("/api/user", userRoutes); // profile, settings, etc.
 
 // ✅ Test route
 app.get("/", (req, res) => {
