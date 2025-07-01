@@ -13,7 +13,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",               // for local development
-      "https://edubot-815x.vercel.app"       // for deployed Vercel frontend
+      "https://edubot-815x-git-main-harini-prithiyangara-bs-projects.vercel.app"     // for deployed Vercel frontend
     ],
     credentials: true,
   })
