@@ -5,7 +5,7 @@ This is the **backend API** for the EduBot application — an AI-powered chatbot
 ## 🚀 Live API
 
 **Render Deployment:**  
-[https://edubot-backend-3.onrender.com](https://edubot-backend-3.onrender.com)
+https://edubot-backend-3.onrender.com
 
 ---
 
