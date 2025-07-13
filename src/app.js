@@ -8,32 +8,43 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
-// ✅ CORS setup for both local and deployed frontend
+// ✅ CORS setup for both local and deployed frontend (NO trailing slashes or spaces)
+const allowedOrigins = [
+  "http://localhost:5173", // Local dev
+  "https://edubot-815x-git-main-harini-prithiyangara-bs-projects.vercel.app", // Vercel branch URL
+  "https://edubot-815x.vercel.app" // Final deployed domain
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",               // for local development
-      "https://edubot-815x-git-main-harini-prithiyangara-bs-projects.vercel.app",
-       "https://edubot-815x.vercel.app/ "  // for deployed Vercel frontend
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
-// ✅ JSON parser
+// ✅ JSON Body Parser
 app.use(express.json());
 
-// ✅ Static uploads (e.g., avatar images)
+// ✅ Serve static files (for uploaded images etc.)
 app.use("/uploads", express.static("uploads"));
 
-// ✅ All API routes
-app.use("/api/auth", authRoutes); // /signup, /login, /forgot-password
-app.use("/api/chat", chatRoutes); // chatbot routes
-app.use("/api/user", userRoutes); // profile, settings, etc.
+// ✅ Register all API routes
+app.use("/api/auth", authRoutes);   // Login, Register, etc.
+app.use("/api/chat", chatRoutes);   // Chatbot conversations
+app.use("/api/user", userRoutes);   // User profile and settings
 
 // ✅ Test route
 app.get("/", (req, res) => {
-  res.send("✅ EduBot backend is running");
+  res.send("✅ EduBot backend is running!");
 });
 
+// ✅ Export app for server.js or main entry
 module.exports = app;
