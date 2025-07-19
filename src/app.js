@@ -11,8 +11,8 @@ const app = express();
 // ✅ CORS setup for both local and deployed frontend (NO trailing slashes or spaces)
 const allowedOrigins = [
   "http://localhost:5173", // Local dev
-  "https://edubot-assist.vercel.app"
-  "https://edubot-815x.vercel.app" // Final deployed domain
+  "https://edubot-assist.vercel.app",
+   "https://edubot-815x.vercel.app" // Final deployed domain
 ];
 
 app.use(
