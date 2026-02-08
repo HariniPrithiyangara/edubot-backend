@@ -10,12 +10,12 @@ const app = express();
 
 // ✅ CORS setup for both local and deployed frontend (NO trailing slashes or spaces)
 const allowedOrigins = [
-  "http://localhost:5173", // Local dev
-  "http://localhost:5174", // Local dev alternate port
-  "https://edubot-assist.vercel.app",
-  "https://edubot-815x.vercel.app", // Final deployed domain
-  process.env.FRONTEND_URL // Allow URL from .env
-];
+  "http://localhost:5173", // Local dev default
+  "http://localhost:5174", // Local dev alternate
+  process.env.FRONTEND_URL_LOCAL,
+  process.env.FRONTEND_URL_PROD,
+  "https://edubot-815x.vercel.app"
+].filter(Boolean); // Remove undefined entries
 
 app.use(
   cors({
