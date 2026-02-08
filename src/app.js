@@ -12,7 +12,8 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173", // Local dev
   "https://edubot-assist.vercel.app",
-   "https://edubot-815x.vercel.app" // Final deployed domain
+  "https://edubot-815x.vercel.app", // Final deployed domain
+  process.env.FRONTEND_URL // Allow URL from .env
 ];
 
 app.use(
