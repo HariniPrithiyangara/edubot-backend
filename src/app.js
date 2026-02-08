@@ -9,7 +9,8 @@ const userRoutes = require("./routes/userRoutes");
 const app = express();
 
 // ✅ CORS setup for both local and deployed frontend (NO trailing slashes or spaces)
-"http://localhost:5173", // Local dev default
+const allowedOrigins = [
+  "http://localhost:5173", // Local dev default
   "http://localhost:5174", // Local dev alternate
   "https://edubot-assist.vercel.app", // ✅ Explicit allows production frontend
   process.env.FRONTEND_URL_LOCAL,
