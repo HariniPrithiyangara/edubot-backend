@@ -9,6 +9,11 @@ const pdfParse = require("pdf-parse");
 const chatWithMistral = async (req, res) => {
   const { text, subject = "general" } = req.body;
 
+  if (!process.env.OPENROUTER_API_KEY) {
+    console.error("❌ Missing OPENROUTER_API_KEY environment variable. Cannot call AI.");
+    return res.status(500).json({ botReply: "⚠️ Developer Error: AI connection not configured." });
+  }
+
   try {
     await Chat.create({ user: req.user.id, sender: "user", message: `[${subject}] ${text}` });
 
@@ -39,7 +44,7 @@ const chatWithMistral = async (req, res) => {
     res.json({ botReply });
   } catch (error) {
     console.error("❌ chatWithMistral error:", error.response?.data || error.message);
-    res.status(500).json({ botReply: "⚠️ AI failed to respond." });
+    res.status(500).json({ botReply: "⚠️ AI failed to respond. Please try again later." });
   }
 };
 
@@ -59,6 +64,16 @@ const imageQuestionHandler = async (req, res) => {
   try {
     const imagePath = req.file.path;
     const subject = req.body.subject || "general";
+
+    if (!process.env.OCR_API_KEY) {
+      console.error("❌ Missing OCR_API_KEY environment variable.");
+      return res.status(500).json({ message: "⚠️ OCR service is not configured." });
+    }
+
+    if (!process.env.OPENROUTER_API_KEY) {
+      console.error("❌ Missing OPENROUTER_API_KEY environment variable. Cannot call AI.");
+      return res.status(500).json({ message: "⚠️ Developer Error: AI connection not configured." });
+    }
 
     const form = new FormData();
     form.append("file", fs.createReadStream(imagePath));
@@ -121,6 +136,11 @@ const pdfQuestionHandler = async (req, res) => {
   try {
     const pdfPath = req.file.path;
     const subject = req.body.subject || "general";
+
+    if (!process.env.OPENROUTER_API_KEY) {
+      console.error("❌ Missing OPENROUTER_API_KEY environment variable. Cannot call AI.");
+      return res.status(500).json({ message: "⚠️ Developer Error: AI connection not configured." });
+    }
 
     const fileData = fs.readFileSync(pdfPath);
     const pdfData = await pdfParse(fileData);
