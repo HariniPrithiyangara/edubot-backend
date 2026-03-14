@@ -20,7 +20,7 @@ const chatWithMistral = async (req, res) => {
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "meta-llama/llama-3.2-3b-instruct:free",
+        model: "openrouter/free",
         messages: [
           {
             role: "system",
@@ -101,7 +101,7 @@ const imageQuestionHandler = async (req, res) => {
     const aiResponse = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "meta-llama/llama-3.2-3b-instruct:free",
+        model: "openrouter/free",
         messages: [
           {
             role: "system",
@@ -157,7 +157,7 @@ const pdfQuestionHandler = async (req, res) => {
     const aiResponse = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "meta-llama/llama-3.2-3b-instruct:free",
+        model: "openrouter/free",
         messages: [
           {
             role: "system",
