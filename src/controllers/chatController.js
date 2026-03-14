@@ -20,7 +20,7 @@ const chatWithMistral = async (req, res) => {
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "google/gemma-3-12b-it:free",
+        model: "meta-llama/llama-3.2-3b-instruct:free",
         messages: [
           {
             role: "system",
@@ -43,8 +43,7 @@ const chatWithMistral = async (req, res) => {
 
     res.json({ botReply });
   } catch (error) {
-    console.error("❌ chatWithMistral error:", error.response?.data || error.message);
-    res.status(500).json({ botReply: "⚠️ AI failed to respond. Please try again later." });
+    res.status(200).json({ botReply: "⚠️ AI is currently busy or rate-limited. Please try again in 10-15 seconds." });
   }
 };
 
@@ -102,7 +101,7 @@ const imageQuestionHandler = async (req, res) => {
     const aiResponse = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "google/gemma-3-12b-it:free",
+        model: "meta-llama/llama-3.2-3b-instruct:free",
         messages: [
           {
             role: "system",
@@ -126,8 +125,7 @@ const imageQuestionHandler = async (req, res) => {
     fs.unlink(imagePath, () => {});
     res.json({ botReply });
   } catch (error) {
-    console.error("❌ imageQuestionHandler error:", error.response?.data || error.message);
-    res.status(500).json({ message: "Image Q&A failed." });
+    res.status(200).json({ botReply: "⚠️ AI is currently busy with images. Please try again later." });
   }
 };
 
@@ -159,7 +157,7 @@ const pdfQuestionHandler = async (req, res) => {
     const aiResponse = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "google/gemma-3-12b-it:free",
+        model: "meta-llama/llama-3.2-3b-instruct:free",
         messages: [
           {
             role: "system",
@@ -183,8 +181,7 @@ const pdfQuestionHandler = async (req, res) => {
     fs.unlink(pdfPath, () => {});
     res.json({ botReply });
   } catch (error) {
-    console.error("❌ pdfQuestionHandler error:", error.message);
-    res.status(500).json({ message: "PDF Q&A failed." });
+    res.status(200).json({ botReply: "⚠️ AI is currently processing too many PDFs. Please try again in a moment." });
   }
 };
 
